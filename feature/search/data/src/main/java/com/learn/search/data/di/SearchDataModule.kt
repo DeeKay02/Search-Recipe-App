@@ -1,6 +1,8 @@
 package com.learn.search.data.di
 
 import com.learn.search.data.remote.SearchApiService
+import com.learn.search.data.repository.SearchRepoImpl
+import com.learn.search.domain.repository.SearchRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,8 +27,13 @@ object SearchDataModule {
     }
 
     @Provides
-    @Singleton
     fun provideSearchApiService(retrofit: Retrofit): SearchApiService {
         return retrofit.create(SearchApiService::class.java)
+    }
+
+    @Provides
+    fun provideSearchRepo(searchApiService: SearchApiService): SearchRepository {
+        return SearchRepoImpl(searchApiService
+        )
     }
 }
